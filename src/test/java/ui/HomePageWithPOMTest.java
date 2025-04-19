@@ -1,14 +1,18 @@
 package ui;
 
 import org.junit.jupiter.api.Test;
+import pageObjects.HomePage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HomePageTest extends BaseTest{
+
+public class HomePageWithPOMTest extends BaseTestWithPOM{
 
     @Test
-    void OpenHomePage() {
-        String actualTitle = driver.getTitle();
+    void OpenHomePageTest() {
+        HomePage homePage = new HomePage(driver);
+
+        String actualTitle = homePage.getWebTitle();
 
         assertEquals("Hands-On Selenium WebDriver with Java", actualTitle);
     }

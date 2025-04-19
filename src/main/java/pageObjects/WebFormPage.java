@@ -1,39 +1,19 @@
 package pageObjects;
 
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-public class HomePage extends BasePage{
-    public static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
+public class WebFormPage extends BasePage{
+    private static final String WEB_FORM_URL = "web-form.html";
 
-    public HomePage(WebDriver driver) {
+    public WebFormPage(WebDriver driver) {
         super(driver);
-        openHomePage();
     }
 
-    @Step("Open homepage")
-    public void openHomePage() {
-        driver.get(BASE_URL);
-    }
-
-    @Step("Open Web form page")
-    public void openWebFormPage() {
-        //webFormButton.click();
-
-    }
-
-    @Step("Open Navigation page")
-    public void openNavigationPage() {
-        driver.get(BASE_URL);
-    }
-
-    @Step("Open DropDown menu page")
-    public void openDropDownMenuPage() {
-        driver.get(BASE_URL);
-    }
-
-    @Step("Get web title")
-    public String getWebTitle() {
-        return driver.getTitle();
+    @Step("Get subpage Url")
+    public String getWebFormUrl() {
+        return WEB_FORM_URL;
     }
 }

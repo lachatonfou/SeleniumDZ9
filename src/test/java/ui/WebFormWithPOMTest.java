@@ -1,30 +1,32 @@
 package ui;
 
-import org.junit.jupiter.api.*;
+import io.qameta.allure.Feature;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import pageObjects.HomePage;
+import pageObjects.WebFormPage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static pageObjects.HomePage.BASE_URL;
 
-public class WebFormTest {
-    WebDriver driver;
-    private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
+@Feature("POM")
+public class WebFormWithPOMTest extends BaseTestWithPOM{
+    //WebDriver driver;
+    //private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
 
-    @BeforeEach
-    void setup() {
-        driver = new ChromeDriver();
-        driver.get(BASE_URL);
-        driver.manage().window().maximize();
-    }
+    @Test
+    void openWebFormTest() {
+        HomePage homePage = new HomePage(driver);
+        WebFormPage webFormPage = homePage.openWebFormPage();
+        String currentUrl = webFormPage.getCurrentUrl();
+        String webFormUrl = webFormPage.getWebFormUrl();
 
-    @AfterEach
-    void tearDown() {
-        driver.quit();
+        assertEquals(BASE_URL + webFormUrl, currentUrl);
     }
 
     @Test
