@@ -11,11 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WebFormTest extends BaseTest{
 
-    private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
+    @BeforeEach
+    void setupWebForm() {
+        driver.findElement(By.xpath("//a[@href = 'web-form.html']")).click();
+    }
 
     @Test
     void proverkaTextInput() throws InterruptedException {
-        driver.get(BASE_URL);
         WebElement textInput = driver.findElement(By.id("my-text-id"));
         textInput.sendKeys("Halo");
         String enteredValue = textInput.getAttribute("value");
@@ -29,7 +31,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaPassword() throws InterruptedException {
-
         WebElement password = driver.findElement(By.name("my-password"));
         password.sendKeys("ololo");
         String enteredValue = password.getAttribute("value");
@@ -43,7 +44,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaTextArea() throws InterruptedException {
-
         WebElement textArea = driver.findElement(By.name("my-textarea"));
         textArea.sendKeys("uwuwu");
         String enteredValue = textArea.getAttribute("value");
@@ -57,7 +57,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaDisabledInput() throws InterruptedException {
-
         WebElement disabledInput = driver.findElement(By.name("my-disabled"));
         Assertions.assertFalse(disabledInput.isEnabled());
         Assertions.assertThrows(ElementNotInteractableException.class, () -> disabledInput.sendKeys("test"));
@@ -74,7 +73,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaReadonlyInput() throws InterruptedException {
-
         WebElement readonlyInput = driver.findElement(By.name("my-readonly"));
         Assertions.assertTrue(readonlyInput.isEnabled());
 
@@ -90,7 +88,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaDropdownSelect() throws InterruptedException {
-
         WebElement dropdownSelect = driver.findElement(By.name("my-select"));
         Select dropdown = new Select(dropdownSelect);
         dropdown.selectByVisibleText("Two");
@@ -108,7 +105,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaCheckedCheckbox() throws InterruptedException {
-
         WebElement checkedCheckbox = driver.findElement(By.id("my-check-1"));
         checkedCheckbox.click();
         Thread.sleep(1000);
@@ -121,7 +117,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaDefaultCheckbox() throws InterruptedException {
-
         WebElement defaultCheckbox = driver.findElement(By.id("my-check-2"));
         defaultCheckbox.click();
         Thread.sleep(1000);
@@ -134,7 +129,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaCheckedRadio() throws InterruptedException {
-
         WebElement checkedRadio = driver.findElement(By.id("my-radio-1"));
         Thread.sleep(1000);
         boolean isChecked = checkedRadio.isSelected();
@@ -146,7 +140,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaDefaultRadio() throws InterruptedException {
-
         WebElement defaultRadio = driver.findElement(By.id("my-radio-2"));
         defaultRadio.click();
         Thread.sleep(1000);
@@ -159,7 +152,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaColorPicker() throws InterruptedException {
-
         WebElement colorPicker = driver.findElement(By.name("my-colors"));
         colorPicker.sendKeys("#ff0099");
         Thread.sleep(1000);
@@ -172,7 +164,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaDatePicker() throws InterruptedException {
-
         WebElement datePicker = driver.findElement(By.xpath("//input[@class='form-control' and @name='my-date']"));
         datePicker.sendKeys("13/04/2025");
         Thread.sleep(1000);
@@ -185,7 +176,6 @@ public class WebFormTest extends BaseTest{
 
     @Test
     void proverkaExampleRange() throws InterruptedException {
-
         WebElement exampleRange = driver.findElement(By.xpath("//input[@class='form-range' and @name='my-range']"));
         Thread.sleep(1000);
         Actions actions = new Actions(driver);

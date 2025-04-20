@@ -9,7 +9,6 @@ public class WebFormPage extends BasePage{
     private static final String WEB_FORM_URL = "web-form.html";
 
     //locators
-
     By textInput = By.id("my-text-id");
     By textInputLabel = By.xpath("//label[normalize-space(.)='Text input']");
     By password = By.name("my-password");
@@ -18,6 +17,13 @@ public class WebFormPage extends BasePage{
     By textAreaLabel = By.xpath("//label[normalize-space(.)='Textarea']");
     By disabledInput = By.name("my-disabled");
     By disabledInputLabel = By.xpath("//label[normalize-space(.)='Disabled input']");
+    By readonlyInput = By.name("my-readonly");
+    By readonlyInputLabel = By.xpath("//label[normalize-space(.)='Readonly input']");
+    By dropdownSelect = By.name("my-select");
+    By checkedCheckbox = By.id("my-check-1");
+    By checkedCheckboxLabel = By.xpath("//label[normalize-space(.)='Checked checkbox']");
+    By defaultCheckbox = By.id("my-check-2");
+    By defaultCheckboxLabel = By.xpath("//label[normalize-space(.)='Default checkbox']");
 
     public WebFormPage(WebDriver driver) {
         super(driver);
@@ -66,5 +72,40 @@ public class WebFormPage extends BasePage{
     @Step("Get disabled input label")
     public WebElement getDisabledInputLabel() {
         return driver.findElement(disabledInputLabel);
+    }
+
+    @Step("Get readonly input field")
+    public WebElement getReadonlyInput() {
+        return driver.findElement(readonlyInput);
+    }
+
+    @Step("Get readonly input label")
+    public WebElement getReadonlyInputLabel() {
+        return driver.findElement(readonlyInputLabel);
+    }
+
+    @Step("Get dropdown select field")
+    public WebElement getdropdownSelect() {
+        return driver.findElement(dropdownSelect);
+    }
+
+    @Step("Get checked checkbox field")
+    public WebElement getcheckedCheckbox() {
+        return driver.findElement(checkedCheckbox);
+    }
+
+    @Step("Get checked checkbox label")
+    public WebElement getcheckedCheckboxLabel() {
+        return driver.findElement(checkedCheckboxLabel);
+    }
+
+    @Step("Get default checkbox field")
+    public WebElement getdefaultCheckbox() {
+        return driver.findElement(defaultCheckbox);
+    }
+
+    @Step("Get default checkbox label")
+    public WebElement getdefaultCheckboxLabel() {
+        return driver.findElement(defaultCheckboxLabel);
     }
 }

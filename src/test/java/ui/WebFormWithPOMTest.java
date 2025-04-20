@@ -4,11 +4,8 @@ import io.qameta.allure.Feature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.HomePage;
 import pageObjects.WebFormPage;
@@ -19,158 +16,82 @@ import static pageObjects.HomePage.BASE_URL;
 @Feature("POM")
 public class WebFormWithPOMTest extends BaseTestWithPOM{
 
-//    @BeforeEach
-//    void setup() {
-//        HomePage homePage = new HomePage(driver);
-//        WebFormPage webFormPage = homePage.openWebFormPage();
-//    }
+    HomePage homePage;
+    WebFormPage webFormPage;
+
+    @BeforeEach
+    void setupWebForm() {
+        homePage = new HomePage(driver);
+        webFormPage = homePage.openWebFormPage();
+    }
 
     @Test
     void openWebFormTest() {
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
         String currentUrl = webFormPage.getCurrentUrl();
         String webFormUrl = webFormPage.getWebFormUrl();
-
         assertEquals(BASE_URL + webFormUrl, currentUrl);
+
+        WebElement title = webFormPage.getTitle();
+        assertEquals("Web form", title.getText());
     }
 
     @Test
-    void proverkaTextInput() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-
-        WebElement textInput = webFormPage.getTextInput();
-        textInput.sendKeys("Halo");
-        String enteredValue = textInput.getAttribute("value");
-        Thread.sleep(1000);
-        assertEquals("Halo", enteredValue);
-
-        WebElement textInputLabel = webFormPage.getTextInputLabel();
-        String textInputText = textInputLabel.getText();
-        assertEquals("Text input", textInputText);
+    void proverkaTextInput() {
+        webFormPage.getTextInput().sendKeys("Halo");
+        assertEquals("Halo", webFormPage.getTextInput().getAttribute("value"));
+        assertEquals("Text input", webFormPage.getTextInputLabel().getText());
     }
 
     @Test
-    void proverkaPassword() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-
-        WebElement password = webFormPage.getPassword();
-        password.sendKeys("ololo");
-        String enteredValue = password.getAttribute("value");
-        Thread.sleep(1000);
-        assertEquals("ololo", enteredValue);
-
-        WebElement passwordLabel = webFormPage.getPasswordLabel();
-        String passwordText = passwordLabel.getText();
-        assertEquals("Password", passwordText);
+    void proverkaPassword() {
+        webFormPage.getPassword().sendKeys("ololo");
+        assertEquals("ololo", webFormPage.getPassword().getAttribute("value"));
+        assertEquals("Password", webFormPage.getPasswordLabel().getText());
     }
 
     @Test
-    void proverkaTextArea() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-
-        WebElement textArea = webFormPage.getTextArea();
-        textArea.sendKeys("uwuwu");
-        String enteredValue = textArea.getAttribute("value");
-        Thread.sleep(1000);
-        assertEquals("uwuwu", enteredValue);
-
-        WebElement textAreaLabel = webFormPage.getTextAreaLabel();
-        String textAreaText = textAreaLabel.getText();
-        assertEquals("Textarea", textAreaText);
+    void proverkaTextArea() {
+        webFormPage.getTextArea().sendKeys("uwuwu");
+        assertEquals("uwuwu", webFormPage.getTextArea().getAttribute("value"));
+        assertEquals("Textarea", webFormPage.getTextAreaLabel().getText());
     }
 
     @Test
-    void proverkaDisabledInput() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-
-        WebElement disabledInput = webFormPage.getDisabledInput();
-        Assertions.assertFalse(disabledInput.isEnabled());
-        Assertions.assertThrows(ElementNotInteractableException.class, () -> disabledInput.sendKeys("test"));
-
-        String placeholderText = disabledInput.getAttribute("placeholder");
-        Thread.sleep(1000);
-        assertEquals("Disabled input", placeholderText);
-
-        WebElement disabledInputLabel = webFormPage.getDisabledInputLabel();
-        String disabledInputText = disabledInputLabel.getText();
-        assertEquals("Disabled input", disabledInputText);
-
+    void proverkaDisabledInput() {
+        Assertions.assertFalse(webFormPage.getDisabledInput().isEnabled());
+        Assertions.assertThrows(ElementNotInteractableException.class, () -> webFormPage.getDisabledInput().sendKeys("test"));
+        assertEquals("Disabled input", webFormPage.getDisabledInput().getAttribute("placeholder"));
+        assertEquals("Disabled input", webFormPage.getDisabledInputLabel().getText());
     }
 
     @Test
-    void proverkaReadonlyInput() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-        WebElement readonlyInput = driver.findElement(By.name("my-readonly"));
-        Assertions.assertTrue(readonlyInput.isEnabled());
-
-        String placeholderText = readonlyInput.getAttribute("value");
-        Thread.sleep(1000);
-        assertEquals("Readonly input", placeholderText);
-
-        WebElement readonlyInputLabel = driver.findElement(By.xpath("//label[normalize-space(.)='Readonly input']"));
-        String readonlyInputText = readonlyInputLabel.getText();
-        assertEquals("Readonly input", readonlyInputText);
-
+    void proverkaReadonlyInput() {
+        Assertions.assertTrue(webFormPage.getReadonlyInput().isEnabled());
+        assertEquals("Readonly input", webFormPage.getReadonlyInput().getAttribute("value"));
+        assertEquals("Readonly input", webFormPage.getReadonlyInputLabel().getText());
     }
 
     @Test
-    void proverkaDropdownSelect() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-        WebElement dropdownSelect = driver.findElement(By.name("my-select"));
-        Select dropdown = new Select(dropdownSelect);
+    void proverkaDropdownSelect() {
+        Select dropdown = new Select(webFormPage.getdropdownSelect());
         dropdown.selectByVisibleText("Two");
-        WebElement selectedOption1 = dropdown.getFirstSelectedOption();
-        String selectedValue = selectedOption1.getText();
-        Thread.sleep(3000);
-        assertEquals("Two", selectedValue);
+        assertEquals("Two", dropdown.getFirstSelectedOption().getText());
 
         dropdown.selectByValue("3");
-        WebElement selectedOption2 = dropdown.getFirstSelectedOption();
-        String selectedValue2 = selectedOption2.getText();
-        assertEquals("Three", selectedValue2);
-        Thread.sleep(3000);
+        assertEquals("Three", dropdown.getFirstSelectedOption().getText());
     }
 
     @Test
-    void proverkaCheckedCheckbox() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-        WebElement checkedCheckbox = driver.findElement(By.id("my-check-1"));
-        checkedCheckbox.click();
-        Thread.sleep(1000);
-        boolean isChecked = checkedCheckbox.isSelected();
-        WebElement checkedCheckboxLabel = driver.findElement(By.xpath("//label[normalize-space(.)='Checked checkbox']"));
-        String checkedCheckboxText = checkedCheckboxLabel.getText();
-        assertEquals("Checked checkbox", checkedCheckboxText);
-        assertEquals(false, isChecked);
+    void proverkaCheckedCheckbox() {
+        webFormPage.getcheckedCheckbox().click();
+        assertEquals("Checked checkbox", webFormPage.getcheckedCheckboxLabel().getText());
+        assertEquals(false, webFormPage.getcheckedCheckbox().isSelected());
     }
 
     @Test
-    void proverkaDefaultCheckbox() throws InterruptedException {
-
-        HomePage homePage = new HomePage(driver);
-        WebFormPage webFormPage = homePage.openWebFormPage();
-        WebElement defaultCheckbox = driver.findElement(By.id("my-check-2"));
-        defaultCheckbox.click();
-        Thread.sleep(1000);
-        boolean isChecked = defaultCheckbox.isSelected();
-        WebElement checkedCheckboxLabel = driver.findElement(By.xpath("//label[normalize-space(.)='Default checkbox']"));
-        String checkedCheckboxText = checkedCheckboxLabel.getText();
-        assertEquals("Default checkbox", checkedCheckboxText);
-        assertEquals(true, isChecked);
+    void proverkaDefaultCheckbox() {
+        webFormPage.getdefaultCheckbox().click();
+        assertEquals("Default checkbox", webFormPage.getdefaultCheckboxLabel().getText());
+        assertEquals(true, webFormPage.getdefaultCheckbox().isSelected());
     }
 }

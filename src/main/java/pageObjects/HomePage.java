@@ -9,11 +9,11 @@ public class HomePage extends BasePage{
 
     public HomePage(WebDriver driver) {
         super(driver);
-        openHomePage();
+        openHome();
     }
 
     @Step("Open homepage")
-    public void openHomePage() {
+    private void openHome() {
         driver.get(BASE_URL);
     }
 
@@ -24,13 +24,15 @@ public class HomePage extends BasePage{
     }
 
     @Step("Open Navigation page")
-    public void openNavigationPage() {
-        driver.get(BASE_URL);
+    public NavigationPage openNavigationPage() {
+        driver.findElement(By.xpath("//a[@href = 'navigation1.html']")).click();
+        return new NavigationPage(driver);
     }
 
     @Step("Open DropDown menu page")
-    public void openDropDownMenuPage() {
-        driver.get(BASE_URL);
+    public DropDownMenuPage openDropDownMenuPage() {
+        driver.findElement(By.xpath("//a[@href = 'dropdown-menu.html']")).click();
+        return new DropDownMenuPage(driver);
     }
 
     @Step("Get web title")
